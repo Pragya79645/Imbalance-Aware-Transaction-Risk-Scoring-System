@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ModelComparison from '@/components/ModelComparison';
 
 // Types for API response
 interface PredictionResponse {
@@ -263,6 +264,11 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        {/* Model Comparison Section */}
+        {features.trim() && (
+          <ModelComparison features={features} loading={loading} />
+        )}
 
         {/* Info Footer */}
         <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
