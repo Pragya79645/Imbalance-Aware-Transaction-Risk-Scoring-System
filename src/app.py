@@ -27,6 +27,15 @@ class Transaction(BaseModel):
 def root():
     return {"message": "Fraud Detection API is running", "status": "OK"}
 
+def get_risk_level(probability: float) -> str:
+    """Determine risk level based on fraud probability."""
+    if probability < 0.30:
+        return "Low Risk"
+    elif probability < 0.60:
+        return "Medium Risk"
+    else:
+        return "High Risk"
+
 @app.post("/predict")
 def predict(transaction: Transaction):
     try:
@@ -35,15 +44,18 @@ def predict(transaction: Transaction):
 
         prob = model.predict_proba(X_scaled)[0][1]
         prediction = int(prob > 0.41)  # optimized threshold
+        risk_level = get_risk_level(prob)
 
         return {
             "fraud_probability": float(prob),
-            "prediction": "Fraud" if prediction == 1 else "Not Fraud"
+            "prediction": "Fraud" if prediction == 1 else "Not Fraud",
+            "risk_level": risk_level
         }
     except Exception as e:
         return {
             "error": str(e),
             "fraud_probability": None,
-            "prediction": None
+            "prediction": None,
+            "risk_level": None
         }
 
