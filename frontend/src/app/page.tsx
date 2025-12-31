@@ -118,22 +118,20 @@ export default function Home() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label
-                  htmlFor="features"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Transaction Features
-                </label>
-                <button
-                  type="button"
-                  onClick={loadSampleFeatures}
-                  className="text-xs px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors font-medium"
-                  title="Load a sample feature list to test the system"
-                >
-                  📋 Load Sample
-                </button>
-              </div>
+              <label
+                htmlFor="features"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3"
+              >
+                Transaction Features
+              </label>
+              <button
+                type="button"
+                onClick={loadSampleFeatures}
+                className="w-full mb-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95"
+                title="Load a sample feature list to test the system"
+              >
+                📋 Load Sample Features
+              </button>
               <textarea
                 id="features"
                 value={features}
