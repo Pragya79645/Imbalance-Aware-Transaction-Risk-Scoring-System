@@ -28,7 +28,7 @@ export default function ThresholdSlider() {
 
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/threshold-metrics?threshold=${threshold}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/threshold-metrics?threshold=${threshold}`,
           {
             method: 'GET',
             headers: {
