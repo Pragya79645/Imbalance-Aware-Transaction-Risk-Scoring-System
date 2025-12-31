@@ -172,13 +172,13 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
         {MODEL_CONFIG.map(model => {
           const result = comparison[model.id as keyof ComparisonResponse];
           const isActive = activeModel === model.id;
-          const hasError = result && 'error' in result;
+          const hasError = result && typeof result === 'object' && 'error' in result;
 
           return (
             <button
               key={model.id}
               onClick={() => setActiveModel(model.id)}
-              disabled={!result || hasError}
+              disabled={!result || Boolean(hasError)}
               className={`p-4 rounded-lg font-semibold transition-all duration-200 ${
                 isActive
                   ? `${model.activeClass} text-white shadow-lg scale-105`
@@ -195,7 +195,7 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
       </div>
 
       {/* Active Model Result */}
-      {activeResult && !('error' in activeResult) && (
+      {activeResult && typeof activeResult === 'object' && !('error' in activeResult) && (
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-lg p-6 border-l-4 border-purple-500">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
             {MODEL_CONFIG.find(m => m.id === activeModel)?.label} - Prediction
@@ -269,7 +269,7 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
         </div>
       )}
 
-      {activeResult && 'error' in activeResult && (
+      {activeResult && typeof activeResult === 'object' && 'error' in activeResult && (
         <div className="bg-yellow-100 dark:bg-yellow-900 border border-yellow-400 dark:border-yellow-600 text-yellow-700 dark:text-yellow-200 px-4 py-3 rounded">
           Model not available: {activeResult.error}
         </div>
@@ -317,13 +317,13 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
                       <button
                         onClick={() => setActiveModel(model.id)}
                         className="text-left font-semibold text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400"
-                        disabled={!result || 'error' in result}
+                        disabled={!result || (typeof result === 'object' && 'error' in result)}
                       >
                         {model.icon} {model.label}
                       </button>
                     </td>
                     <td className="py-3 px-4">
-                      {result && !('error' in result) ? (
+                      {result && typeof result === 'object' && !('error' in result) ? (
                         <span className="font-semibold">
                           {(result.fraud_probability * 100).toFixed(2)}%
                         </span>
@@ -347,7 +347,7 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
                       )}
                     </td>
                     <td className="py-3 px-4">
-                      {result && !('error' in result) ? (
+                      {result && typeof result === 'object' && !('error' in result) ? (
                         <span className={getRiskColor(result.risk_level)}>
                           {result.risk_level}
                         </span>
@@ -356,7 +356,7 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
                       )}
                     </td>
                     <td className="py-3 px-4">
-                      {result && !('error' in result) && result.anomaly_score !== undefined ? (
+                      {result && typeof result === 'object' && !('error' in result) && result.anomaly_score !== undefined ? (
                         <span className="font-semibold text-indigo-600 dark:text-indigo-400">
                           {result.anomaly_score.toFixed(4)}
                         </span>
