@@ -82,6 +82,12 @@ export default function Home() {
     setFeatures(e.target.value);
   };
 
+  // Load sample features
+  const loadSampleFeatures = () => {
+    const sampleFeatures = '-8.5, -7.2, -9.1, -6.8, -8.3, -7.9, -5.4, -6.7, -8.8, -7.5, -7.9, -8.2, -9.3, -8.1, -7.3, -6.2, -7.5, -8.9, -7.8, -8.6';
+    setFeatures(sampleFeatures);
+  };
+
   // Clear form
   const handleClear = () => {
     setFeatures('');
@@ -112,12 +118,22 @@ export default function Home() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label
-                htmlFor="features"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-              >
-                Transaction Features
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="features"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  Transaction Features
+                </label>
+                <button
+                  type="button"
+                  onClick={loadSampleFeatures}
+                  className="text-xs px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors font-medium"
+                  title="Load a sample feature list to test the system"
+                >
+                  📋 Load Sample
+                </button>
+              </div>
               <textarea
                 id="features"
                 value={features}
@@ -127,9 +143,22 @@ export default function Home() {
                 rows={4}
                 disabled={loading}
               />
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                Enter exactly 20 numeric values separated by commas
-              </p>
+              <div className="mt-3 space-y-2">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold">ℹ️ What to input:</span> Enter exactly 20 numeric values (positive or negative) separated by commas
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold">📊 Feature explanation:</span> These values represent normalized transaction features from a machine learning model. They could represent:
+                </p>
+                <ul className="text-sm text-gray-600 dark:text-gray-400 ml-4 space-y-1">
+                  <li>• <span className="font-semibold">Negative values</span>: Features below average (e.g., unusual transaction amount, atypical merchant category)</li>
+                  <li>• <span className="font-semibold">Positive values</span>: Features above average (e.g., regular spending patterns, trusted merchant)</li>
+                  <li>• <span className="font-semibold">Magnitude</span>: Larger absolute values indicate stronger signals (more unusual or more normal)</li>
+                </ul>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold">💡 Tip:</span> Click "<span className="text-blue-600 dark:text-blue-300 font-semibold">Load Sample</span>" to test with pre-filled features
+                </p>
+              </div>
             </div>
 
             {/* Buttons */}
