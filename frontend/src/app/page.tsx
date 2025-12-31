@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import ModelComparison from '@/components/ModelComparison';
+import LiveMetricsPanel from '@/components/LiveMetricsPanel';
+import ThresholdSlider from '@/components/ThresholdSlider';
 
 // Types for API response
 interface PredictionResponse {
@@ -98,6 +100,11 @@ export default function Home() {
           <p className="text-gray-600 dark:text-gray-300">
             AI-powered transaction fraud analysis
           </p>
+        </div>
+
+        {/* Live Metrics Panel */}
+        <div className="mb-8">
+          <LiveMetricsPanel />
         </div>
 
         {/* Main Card */}
@@ -269,6 +276,11 @@ export default function Home() {
         {features.trim() && (
           <ModelComparison features={features} loading={loading} />
         )}
+
+        {/* Threshold Slider Section */}
+        <div className="mt-12">
+          <ThresholdSlider />
+        </div>
 
         {/* Info Footer */}
         <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">

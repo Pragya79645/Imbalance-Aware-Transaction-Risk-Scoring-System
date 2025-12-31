@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import AnomalyScoreMeter from './AnomalyScoreMeter';
 
 interface ModelResult {
   fraud_probability: number;
@@ -248,15 +249,21 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
             </div>
           </div>
 
+          {/* Anomaly Score Meter - Isolation Forest */}
+          {activeResult.anomaly_score !== undefined && (
+            <div className="mt-6">
+              <AnomalyScoreMeter
+                anomalyScore={activeResult.anomaly_score}
+                prediction={activeResult.prediction}
+                fraudProbability={activeResult.fraud_probability}
+              />
+            </div>
+          )}
+
           {/* Additional Info */}
           {activeResult.threshold && (
             <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               <p>Decision Threshold: <span className="font-semibold">{activeResult.threshold.toFixed(2)}</span></p>
-            </div>
-          )}
-          {activeResult.anomaly_score !== undefined && (
-            <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              <p>Anomaly Score: <span className="font-semibold">{activeResult.anomaly_score.toFixed(4)}</span></p>
             </div>
           )}
         </div>
@@ -288,6 +295,9 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
                 </th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">
                   Risk Level
+                </th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">
+                  Anomaly Score
                 </th>
               </tr>
             </thead>
@@ -340,6 +350,15 @@ export default function ModelComparison({ features, loading }: ModelComparisonPr
                       {result && !('error' in result) ? (
                         <span className={getRiskColor(result.risk_level)}>
                           {result.risk_level}
+                        </span>
+                      ) : (
+                        <span className="text-gray-500 dark:text-gray-400">N/A</span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4">
+                      {result && !('error' in result) && result.anomaly_score !== undefined ? (
+                        <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+                          {result.anomaly_score.toFixed(4)}
                         </span>
                       ) : (
                         <span className="text-gray-500 dark:text-gray-400">N/A</span>
